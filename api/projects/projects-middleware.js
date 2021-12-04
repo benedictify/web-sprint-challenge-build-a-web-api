@@ -23,7 +23,16 @@ function errorHandling(err, req, res, next) {
   });
 }
 
+function validateProject(req, res, next) {
+	if (!req.body.name || !req.body.description) {
+		next({status: 400, message: 'project not complete'})
+	} else {
+		next();
+	}
+}
+
 module.exports = {
 	checkId,
-	errorHandling
+	errorHandling,
+	validateProject,
 }
