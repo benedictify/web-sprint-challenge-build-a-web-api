@@ -1,14 +1,29 @@
 const express = require('express')
-// require mw here, functions destructured
-const Projects = require('./projects-model')
-const Actions = require('../actions/actions-model')
+const { 
+	checkId,
+	errorHandling
+} = require('./projects-middleware') 
+const Projects = require('./projects-model.js')
+// const Actions = require('../actions/actions-model')
 
 const router = express.Router();
 
 // global mw's if any
 
-// * next: 
-// router.verb(relative path, mw's, (req, res, next) => func to do stuff)
-router.get('/', )
+router.get('/', (req, res, next) => {
+	Projects.get()
+		.then(projects => {
+			res.status(200).json(projects)
+		})
+		.catch(error => {
+			next(error);
+		})
+})
+
+router.get('/:id', checkId, (req, res, next) => {
+	res.status(200).json(req.project)
+})
+
+router.use(errorHandling);
 
 module.exports = router;
