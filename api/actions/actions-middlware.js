@@ -1,4 +1,4 @@
-const Actions = require('./Actionss-model')
+const Actions = require('./actions-model')
 
 async function checkActionsId(req, res, next) { // eslint-disable-line
 	try {
