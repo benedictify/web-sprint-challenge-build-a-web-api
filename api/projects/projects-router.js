@@ -1,15 +1,14 @@
 const express = require('express')
 const { 
-	checkId,
 	errorHandling,
+} = require('../middleware') 
+const { 
+	checkProjectId,
 	validateProject
 } = require('./projects-middleware') 
 const Projects = require('./projects-model.js')
-// const Actions = require('../actions/actions-model')
 
 const router = express.Router();
-
-// global mw's if any
 
 router.get('/', (req, res, next) => {
 	Projects.get()
@@ -21,7 +20,7 @@ router.get('/', (req, res, next) => {
 		})
 })
 
-router.get('/:id', checkId, (req, res, next) => { // eslint-disable-line
+router.get('/:id', checkProjectId, (req, res, next) => { // eslint-disable-line
 	res.status(200).json(req.project)
 })
 
@@ -35,7 +34,7 @@ router.post('/', validateProject, (req, res, next) => {
     });
 });
 
-router.put('/:id', validateProject, checkId, (req, res, next) => {
+router.put('/:id', validateProject, checkProjectId, (req, res, next) => {
   Projects.update(req.params.id, req.body)
     .then(project => {
       res.json(project);
@@ -45,9 +44,9 @@ router.put('/:id', validateProject, checkId, (req, res, next) => {
     });
 });
 
-router.delete('/:id', checkId, (req, res, next) => {
+router.delete('/:id', checkProjectId, (req, res, next) => {
   Projects.remove(req.params.id)
-    .then(count => {
+    .then(() => {
       res.status(200).json({ message: 'project deleted' });
     })
     .catch(error => {
@@ -55,7 +54,7 @@ router.delete('/:id', checkId, (req, res, next) => {
     });
 });
 
-router.get("/:id/actions", checkId, (req, res, next) => {
+router.get("/:id/actions", checkProjectId, (req, res, next) => {
 	Projects.getProjectActions(req.params.id)
 		.then(actions => {
 			res.status(200).json(actions)
