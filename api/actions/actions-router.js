@@ -54,16 +54,6 @@ router.delete('/:id', checkActionId, (req, res, next) => {
     });
 });
 
-router.get("/:id/actions", checkActionId, (req, res, next) => {
-	actions.getactionActions(req.params.id)
-		.then(actions => {
-			res.status(200).json(actions)
-		})
-		.catch(error => {
-			next(error);
-		})
-})
-
 router.use(errorHandling);
 
 module.exports = router;

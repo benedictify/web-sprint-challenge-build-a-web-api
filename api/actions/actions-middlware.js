@@ -8,7 +8,7 @@ async function checkActionsId(req, res, next) { // eslint-disable-line
 			req.actions = act;
 			next();
 		} else {
-			next({ status: 404, message: "Actions not found" })
+			next({ status: 404, message: "Action not found" })
 		}
 	} catch (error) {
 		next(error);
