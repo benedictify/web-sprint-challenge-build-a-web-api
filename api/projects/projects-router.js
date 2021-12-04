@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
 		})
 })
 
-router.get('/:id', checkId, (req, res, next) => {
+router.get('/:id', checkId, (req, res, next) => { // eslint-disable-line
 	res.status(200).json(req.project)
 })
 
@@ -34,6 +34,18 @@ router.post('/', validateProject, (req, res, next) => {
       next(error);
     });
 });
+
+router.put('/:id', validateProject, checkId, (req, res, next) => {
+  Projects.update(req.params.id, req.body)
+    .then(project => {
+      res.json(project);
+    })
+    .catch(error => {
+      next(error);
+    });
+});
+
+
 
 router.use(errorHandling);
 
