@@ -45,7 +45,15 @@ router.put('/:id', validateProject, checkId, (req, res, next) => {
     });
 });
 
-
+router.delete('/:id', checkId, (req, res, next) => {
+  Projects.remove(req.params.id)
+    .then(count => {
+      res.status(200).json({ message: 'project deleted' });
+    })
+    .catch(error => {
+      next(error);
+    });
+});
 
 router.use(errorHandling);
 
